@@ -1,0 +1,129 @@
+﻿<Window x:Class="Wonder_Appliances.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"        
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"        
+        mc:Ignorable="d"       
+        WindowStartupLocation="CenterScreen"            
+        ResizeMode="NoResize"
+        AllowsTransparency="True"        
+        Background="#f2f2f2"    
+        WindowStyle="None"        
+        Height="450" Width="700">
+    <Window.Resources>
+        
+        <Style TargetType="{x:Type Window}">
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="FontFamily" Value="Cambria" />
+        </Style>
+
+        <Style x:Key="CenterGridHeaderStyle" TargetType="{x:Type DataGridColumnHeader}">
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Padding" Value="5"/>
+            <Setter Property="Background" Value="LightGray" />
+            <Setter Property="FontFamily" Value="FranklinGothic-Book"/>            
+        </Style>
+
+        <Style x:Key="GridCellStyle" TargetType="{x:Type DataGridCell}">
+            <Setter Property="Padding" Value="10"/>            
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type DataGridCell}">
+                        <Border Padding="{TemplateBinding Padding}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}"
+                                Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
+                            <ContentPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="customeButtonStyle" TargetType="{x:Type Button}">
+            <Setter Property="OverridesDefaultStyle" Value="True" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Name="border" BorderBrush="Black" Background="{TemplateBinding Background}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Opacity" Value="0.8" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        
+        <!--Title Bar-->
+        <DockPanel Background="LightGray" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Top"  MouseDown="DockPanel_MouseDown">
+            <TextBlock x:Name="txtWindowTitle" FontFamily="Rockwell-Bold" FontWeight="Bold" Margin="5" FontSize="12" HorizontalAlignment="Stretch" VerticalAlignment="Center" DockPanel.Dock="Left"/>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top" DockPanel.Dock="Right" Margin="5">
+                <Border x:Name="bdrMinimize" ToolTip="Minimize" Background="Transparent" PreviewMouseLeftButtonDown="BdrMinimize_PreviewMouseLeftButtonDown" Margin="0,-5,8,0" Cursor="Hand" >
+                    <Image Source="../../Images/Minimize.png" Height="20" Width="20"/>
+                </Border>
+                <Border x:Name="bdrClose" ToolTip="Close" Background="Transparent" Cursor="Hand" PreviewMouseLeftButtonDown="BdrClose_PreviewMouseLeftButtonDown"  Margin="3" >
+                    <Image Source="../../Images/Close.png" Height="20"  Width="20"/>
+                </Border>
+            </StackPanel>
+        </DockPanel>
+
+        <!--Get Data from Reference Value-->
+        <StackPanel Margin="20" Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Stretch">
+
+            <TextBlock Margin="10" Text="ENTER REF VALUE" FontFamily="Rockwell-Bold" FontWeight="Bold" FontSize="20" HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
+
+            <TextBox x:Name="txtReferenceValue" TextWrapping="NoWrap" Height="40" Padding="5" FontSize="15" MinWidth="200" Margin="10" HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
+
+            <Button x:Name="btnGetData" Height="40" FontWeight="Bold" MinWidth="120" Background="Black" Foreground="White" Margin="10" HorizontalAlignment="Stretch" VerticalAlignment="Center" 
+                    Click="BtnGetData_Click" Style="{StaticResource customeButtonStyle}" Content="GET DATA" />
+        </StackPanel>
+        
+        <!--Show Data into the Grid-->
+        <DataGrid x:Name="grdSerialData" HorizontalGridLinesBrush="LightGray" VerticalGridLinesBrush="LightGray" Grid.Row="2" MinHeight="250" MaxHeight="250"  
+                  ItemsSource="{Binding MyList}" CellStyle="{DynamicResource GridCellStyle}"
+                  Margin="5,5,0,10" ColumnHeaderStyle="{DynamicResource CenterGridHeaderStyle}" AutoGenerateColumns="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Header="S.NO." MinWidth="100">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate >
+                            <TextBlock Text="{Binding SrNo}" FontSize="12" FontFamily="FontAwesome" FontWeight="Regular" HorizontalAlignment="Center"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn Header="READINGS" Width="*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Readings}" FontSize="12" FontFamily="FontAwesome" FontWeight="Regular" HorizontalAlignment="Center"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="DATE &amp; TIME" Width="*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding DateAndTime}" FontSize="12" FontFamily="FontAwesome" FontWeight="Regular" HorizontalAlignment="Center"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        
+        <!--Export Data-->
+        <Button x:Name="btnExportData" FontWeight="Bold" Grid.Row="3" MinWidth="120" Height="40" Background="Black" Foreground="White" Margin="0,0,0,10" Click="BtnExportData_Click"
+                HorizontalAlignment="Center" VerticalAlignment="Center" Opacity="1" Content="EXPORT" Style="{StaticResource customeButtonStyle}"/>
+    </Grid>
+</Window>
