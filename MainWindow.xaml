@@ -100,7 +100,7 @@
                 <DataGridTemplateColumn Header="S.NO." MinWidth="100">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate >
-                            <TextBlock Text="{Binding SrNo}" FontSize="12" FontFamily="FontAwesome" FontWeight="Regular" HorizontalAlignment="Center"/>
+                            <TextBlock Text="{Binding SrNo}" FontSize="12" FontFamily="FontAwesome" HorizontalAlignment="Center"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
@@ -108,14 +108,14 @@
                 <DataGridTemplateColumn Header="READINGS" Width="*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding Readings}" FontSize="12" FontFamily="FontAwesome" FontWeight="Regular" HorizontalAlignment="Center"/>
+                            <TextBlock Text="{Binding Readings}" FontSize="12" FontFamily="FontAwesome" HorizontalAlignment="Center"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 <DataGridTemplateColumn Header="DATE &amp; TIME" Width="*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding DateAndTime}" FontSize="12" FontFamily="FontAwesome" FontWeight="Regular" HorizontalAlignment="Center"/>
+                            <TextBlock Text="{Binding DateAndTime}" FontSize="12" FontFamily="FontAwesome" HorizontalAlignment="Center"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
