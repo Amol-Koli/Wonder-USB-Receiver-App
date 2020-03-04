@@ -21,7 +21,6 @@ namespace Wonder_Appliances
             txtWindowTitle.Text = "COMPANY NAME";
             txtReferenceValue.Focus();
         }
-
         #region variable declarations
 
         private Microsoft.Office.Interop.Excel.Application excel;
