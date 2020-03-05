@@ -1,17 +1,17 @@
 ﻿using Microsoft.Office.Interop.Excel;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.IO;
 using System.Windows;
-using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace Wonder_Appliances
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
+    /// 
     public partial class MainWindow : System.Windows.Window
     {
         public MainWindow()
@@ -21,6 +21,7 @@ namespace Wonder_Appliances
             txtWindowTitle.Text = "COMPANY NAME";
             txtReferenceValue.Focus();
         }
+
         #region variable declarations
 
         private Microsoft.Office.Interop.Excel.Application excel;
@@ -28,8 +29,10 @@ namespace Wonder_Appliances
         private Worksheet workSheet = null;
         private Range cellRange = null;
         private List<SerialData> MyList = null;
-        
+
         #endregion
+
+        #region private Methods
 
         private void BtnGetData_Click(object sender, RoutedEventArgs e)
         {
@@ -44,15 +47,15 @@ namespace Wonder_Appliances
                         {
                             SrNo = i,
                             Readings = txtReferenceValue.Text.Trim(),
-                            DateAndTime = DateTime.Now.ToString("dd/MM/yyyy hh:mm tt")
+                            Date_And_Time = DateTime.Now.ToString("dd/MM/yyyy hh:mm tt")
                         });
                     }
                     grdSerialData.ItemsSource = MyList;
                 }
                 else
-                {
+                {  
                     MessageBox.Show("Please enter reference value ?", "Requesting", MessageBoxButton.OK, MessageBoxImage.Exclamation);
-                    txtReferenceValue.Focus();
+                    txtReferenceValue.Focus();                    
                 }
             }
             catch (Exception ex)
@@ -133,41 +136,38 @@ namespace Wonder_Appliances
             }
         }
 
-        private void DockPanel_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void DockPanel_MouseDown(object sender, MouseButtonEventArgs e)
         {
             App.Current.MainWindow.DragMove();
         }
 
-        private void BdrMinimize_PreviewMouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void BdrMinimize_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            App.Current.MainWindow.WindowState = WindowState.Minimized; 
+            App.Current.MainWindow.WindowState = WindowState.Minimized;
         }
 
-        private void BdrClose_PreviewMouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void BdrClose_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             App.Current.MainWindow.Close();
         }
-    }
-    public static class ConvertListToDataTable
-    {
-        public static System.Data.DataTable ToDataTable<T>(this IList<T> data)
+
+        private void TxtReferenceValue_KeyUp(object sender, KeyEventArgs e)
         {
-            PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(typeof(T));
-            System.Data.DataTable dt = new System.Data.DataTable();
-            foreach (PropertyDescriptor prop in properties)
+            if (e.Key == Key.Enter)
             {
-                dt.Columns.Add(prop.Name, Nullable.GetUnderlyingType(prop.PropertyType) ?? prop.PropertyType);
+                BtnGetData_Click(sender, null);
             }
-            foreach (T item in data)
-            {
-                DataRow row = dt.NewRow();
-                foreach (PropertyDescriptor pdt in properties)
-                {
-                    row[pdt.Name] = pdt.GetValue(item) ?? DBNull.Value;
-                }
-                dt.Rows.Add(row);
-            }
-            return dt;
         }
+
+        private void TxtReferenceValue_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+        {
+            if (this.txtReferenceValue.Text.Trim() == string.Empty)
+            {
+                this.grdSerialData.ItemsSource = null;
+                this.MyList.Clear();
+            }
+        }
+
+        #endregion
     }    
 }

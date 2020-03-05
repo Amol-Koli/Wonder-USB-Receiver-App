@@ -8,9 +8,9 @@ using System.Windows;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Wonder Appliances")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Get data from USB and Export it to Excel")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Chirpn IT Solutions LLP")]
 [assembly: AssemblyProduct("Wonder Appliances")]
 [assembly: AssemblyCopyright("Copyright ©  2020")]
 [assembly: AssemblyTrademark("")]

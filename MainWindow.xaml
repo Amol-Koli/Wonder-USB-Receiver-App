@@ -7,32 +7,35 @@
         WindowStartupLocation="CenterScreen"            
         ResizeMode="NoResize"
         AllowsTransparency="True"        
-        Background="#f2f2f2"    
+        Background="Transparent" 
         WindowStyle="None"        
         Height="450" Width="700">
-    <Window.Resources>
-        
+    <Window.Resources>        
         <Style TargetType="{x:Type Window}">
-            <Setter Property="FontSize" Value="15"/>
-            <Setter Property="FontWeight" Value="Bold"/>
-            <Setter Property="FontFamily" Value="Cambria" />
+            <Setter Property="FontFamily" Value="Poppins Bold" />            
         </Style>
 
+        
+        <Style TargetType="{x:Type Border}">
+            <Setter Property="CornerRadius" Value="5"/>
+        </Style>
+        <!--DataGrid HeaderColumn Styles-->
         <Style x:Key="CenterGridHeaderStyle" TargetType="{x:Type DataGridColumnHeader}">
             <Setter Property="HorizontalContentAlignment" Value="Center"/>
             <Setter Property="FontSize" Value="14"/>
-            <Setter Property="Padding" Value="5"/>
+            <Setter Property="Padding" Value="7"/>
             <Setter Property="Background" Value="LightGray" />
-            <Setter Property="FontFamily" Value="FranklinGothic-Book"/>            
+            <Setter Property="FontFamily" Value="Poppins Regular"/>
         </Style>
-
+        
+        <!--DataGrid Cells Styles-->
         <Style x:Key="GridCellStyle" TargetType="{x:Type DataGridCell}">
             <Setter Property="Padding" Value="10"/>            
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type DataGridCell}">
-                        <Border Padding="{TemplateBinding Padding}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}"
-                                Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
+                        <Border Padding="{TemplateBinding Padding}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" 
+                                SnapsToDevicePixels="True">
                             <ContentPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
                         </Border>
                     </ControlTemplate>
@@ -40,18 +43,35 @@
             </Setter>
         </Style>
 
-        <Style x:Key="customeButtonStyle" TargetType="{x:Type Button}">
+        <!--DataGrid TextBlock Styles-->
+        <Style x:Key="TextBlockStyle" TargetType="{x:Type TextBlock}">
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="FontFamily" Value="Poppins Regular"/>
+            <Setter Property="FontSize" Value="13"/>
+        </Style>
+        
+        <!--Button Styles-->
+        <Style x:Key="ButtonStyle" TargetType="{x:Type Button}">
             <Setter Property="OverridesDefaultStyle" Value="True" />
             <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="FontFamily" Value="Poppins Bold"/>
+            <Setter Property="MinWidth" Value="120"/>
+            <Setter Property="Height" Value="35"/>
+            <Setter Property="Background" Value="Black"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Opacity" Value="1"/>
+            <Setter Property="Margin" Value="10"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Button}">
-                        <Border Name="border" BorderBrush="Black" Background="{TemplateBinding Background}">
+                        <Border Name="border" BorderBrush="Black" CornerRadius="5" Background="{TemplateBinding Background}">
                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Opacity" Value="0.8" />
+                                <Setter Property="Opacity" Value="0.8"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -60,7 +80,8 @@
         </Style>
 
     </Window.Resources>
-    <Grid>
+    <Border CornerRadius="5" BorderThickness="0.5" Background="#f2f2f2" BorderBrush="Black">
+    <Grid>       
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -69,8 +90,8 @@
         </Grid.RowDefinitions>
         
         <!--Title Bar-->
-        <DockPanel Background="LightGray" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Top"  MouseDown="DockPanel_MouseDown">
-            <TextBlock x:Name="txtWindowTitle" FontFamily="Rockwell-Bold" FontWeight="Bold" Margin="5" FontSize="12" HorizontalAlignment="Stretch" VerticalAlignment="Center" DockPanel.Dock="Left"/>
+        <DockPanel Background="LightGray" Grid.Row="0" Margin="0,1,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Top"  MouseDown="DockPanel_MouseDown">
+            <TextBlock x:Name="txtWindowTitle" ToolTip="{Binding ElementName=txtWindowTitle, Path=Text}" FontFamily="Rockwell-Bold" FontWeight="Bold" Margin="10,5" FontSize="12" HorizontalAlignment="Stretch" VerticalAlignment="Center" DockPanel.Dock="Left"/>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top" DockPanel.Dock="Right" Margin="5">
                 <Border x:Name="bdrMinimize" ToolTip="Minimize" Background="Transparent" PreviewMouseLeftButtonDown="BdrMinimize_PreviewMouseLeftButtonDown" Margin="0,-5,8,0" Cursor="Hand" >
                     <Image Source="../../Images/Minimize.png" Height="20" Width="20"/>
@@ -84,23 +105,28 @@
         <!--Get Data from Reference Value-->
         <StackPanel Margin="20" Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Stretch">
 
-            <TextBlock Margin="10" Text="ENTER REF VALUE" FontFamily="Rockwell-Bold" FontWeight="Bold" FontSize="20" HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
-
-            <TextBox x:Name="txtReferenceValue" TextWrapping="NoWrap" Height="40" Padding="5" FontSize="15" MinWidth="200" Margin="10" HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
-
-            <Button x:Name="btnGetData" Height="40" FontWeight="Bold" MinWidth="120" Background="Black" Foreground="White" Margin="10" HorizontalAlignment="Stretch" VerticalAlignment="Center" 
-                    Click="BtnGetData_Click" Style="{StaticResource customeButtonStyle}" Content="GET DATA" />
+            <TextBlock Margin="10" Text="ENTER REF VALUE" FontFamily="Franklin Gothic Cond Demi" FontSize="20" HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
+            
+                <TextBox x:Name="txtReferenceValue" KeyUp="TxtReferenceValue_KeyUp" TextChanged="TxtReferenceValue_TextChanged" Padding="3,0,0,0" Margin="10" MinHeight="35" Height="35" MinWidth="250"
+                         MaxWidth="250" VerticalContentAlignment="Center" FontSize="15" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                <TextBox.Resources>
+                    <Style TargetType="{x:Type Border}">
+                        <Setter Property="CornerRadius" Value="5"/>
+                    </Style>
+                </TextBox.Resources>
+            </TextBox>           
+            <Button x:Name="btnGetData" Click="BtnGetData_Click" Style="{StaticResource ButtonStyle}" Content="GET DATA" />
         </StackPanel>
         
         <!--Show Data into the Grid-->
-        <DataGrid x:Name="grdSerialData" HorizontalGridLinesBrush="LightGray" VerticalGridLinesBrush="LightGray" Grid.Row="2" MinHeight="250" MaxHeight="250"  
-                  ItemsSource="{Binding MyList}" CellStyle="{DynamicResource GridCellStyle}"
-                  Margin="5,5,0,10" ColumnHeaderStyle="{DynamicResource CenterGridHeaderStyle}" AutoGenerateColumns="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <DataGrid x:Name="grdSerialData" CanUserSortColumns="True" HorizontalGridLinesBrush="LightGray" VerticalGridLinesBrush="LightGray" Grid.Row="2" MinHeight="250" MaxHeight="250" ItemsSource="{Binding MyList}"
+                  CellStyle="{DynamicResource GridCellStyle}" Margin="-5,5,0,10" ColumnHeaderStyle="{DynamicResource CenterGridHeaderStyle}" AutoGenerateColumns="False" 
+                  HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <DataGrid.Columns>
                 <DataGridTemplateColumn Header="S.NO." MinWidth="100">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate >
-                            <TextBlock Text="{Binding SrNo}" FontSize="12" FontFamily="FontAwesome" HorizontalAlignment="Center"/>
+                            <TextBlock Text="{Binding SrNo}" Style="{StaticResource TextBlockStyle}"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
@@ -108,14 +134,14 @@
                 <DataGridTemplateColumn Header="READINGS" Width="*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding Readings}" FontSize="12" FontFamily="FontAwesome" HorizontalAlignment="Center"/>
+                            <TextBlock Text="{Binding Readings}" Style="{StaticResource TextBlockStyle}"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 <DataGridTemplateColumn Header="DATE &amp; TIME" Width="*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding DateAndTime}" FontSize="12" FontFamily="FontAwesome" HorizontalAlignment="Center"/>
+                            <TextBlock Text="{Binding Date_And_Time}" Style="{StaticResource TextBlockStyle}"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
@@ -123,7 +149,8 @@
         </DataGrid>
         
         <!--Export Data-->
-        <Button x:Name="btnExportData" FontWeight="Bold" Grid.Row="3" MinWidth="120" Height="40" Background="Black" Foreground="White" Margin="0,0,0,10" Click="BtnExportData_Click"
-                HorizontalAlignment="Center" VerticalAlignment="Center" Opacity="1" Content="EXPORT" Style="{StaticResource customeButtonStyle}"/>
+        <Button x:Name="btnExportData" Grid.Row="3" Click="BtnExportData_Click" Content="EXPORT" Style="{StaticResource ButtonStyle}"/>
+       
     </Grid>
+    </Border>
 </Window>
