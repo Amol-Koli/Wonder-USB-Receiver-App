@@ -80,7 +80,7 @@
         </Style>
 
     </Window.Resources>
-    <Border CornerRadius="5" BorderThickness="0.5" Background="#f2f2f2" BorderBrush="Black">
+    <Border CornerRadius="5" BorderThickness="0.8" Background="#f2f2f2" BorderBrush="Black">
     <Grid>       
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -119,7 +119,7 @@
         </StackPanel>
         
         <!--Show Data into the Grid-->
-        <DataGrid x:Name="grdSerialData" CanUserSortColumns="True" HorizontalGridLinesBrush="LightGray" VerticalGridLinesBrush="LightGray" Grid.Row="2" MinHeight="250" MaxHeight="250" ItemsSource="{Binding MyList}"
+            <DataGrid x:Name="grdSerialData" CanUserSortColumns="True" HorizontalGridLinesBrush="LightGray" VerticalGridLinesBrush="LightGray" Grid.Row="2" MinHeight="250" MaxHeight="250" ItemsSource="{Binding MyList}"
                   CellStyle="{DynamicResource GridCellStyle}" Margin="-5,5,0,10" ColumnHeaderStyle="{DynamicResource CenterGridHeaderStyle}" AutoGenerateColumns="False" 
                   HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <DataGrid.Columns>
