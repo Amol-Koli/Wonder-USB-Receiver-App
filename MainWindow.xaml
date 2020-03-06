@@ -4,20 +4,16 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"        
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"        
         mc:Ignorable="d"       
-        WindowStartupLocation="CenterScreen"            
-        ResizeMode="NoResize"
-        AllowsTransparency="True"        
-        Background="Transparent" 
-        WindowStyle="None"        
+        WindowStartupLocation="CenterScreen"     
+        Background="#f2f2f2"   
+        Title="WONDER APPLIANCES PVT. LTD"        
+        StateChanged="Window_StateChanged"
         Height="450" Width="700">
-    <Window.Resources>        
+    <Window.Resources>
         <Style TargetType="{x:Type Window}">
-            <Setter Property="FontFamily" Value="Poppins Bold" />            
-        </Style>
-
-        
-        <Style TargetType="{x:Type Border}">
-            <Setter Property="CornerRadius" Value="5"/>
+            <Setter Property="FontFamily" Value="Poppins Bold"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="FontSize" Value="18"/>
         </Style>
         <!--DataGrid HeaderColumn Styles-->
         <Style x:Key="CenterGridHeaderStyle" TargetType="{x:Type DataGridColumnHeader}">
@@ -27,10 +23,10 @@
             <Setter Property="Background" Value="LightGray" />
             <Setter Property="FontFamily" Value="Poppins Regular"/>
         </Style>
-        
+
         <!--DataGrid Cells Styles-->
         <Style x:Key="GridCellStyle" TargetType="{x:Type DataGridCell}">
-            <Setter Property="Padding" Value="10"/>            
+            <Setter Property="Padding" Value="10"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type DataGridCell}">
@@ -49,7 +45,7 @@
             <Setter Property="FontFamily" Value="Poppins Regular"/>
             <Setter Property="FontSize" Value="13"/>
         </Style>
-        
+
         <!--Button Styles-->
         <Style x:Key="ButtonStyle" TargetType="{x:Type Button}">
             <Setter Property="OverridesDefaultStyle" Value="True" />
@@ -80,46 +76,48 @@
         </Style>
 
     </Window.Resources>
-    <Border CornerRadius="5" BorderThickness="0.8" Background="#f2f2f2" BorderBrush="Black">
-    <Grid>       
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        
+
         <!--Title Bar-->
-        <DockPanel Background="LightGray" Grid.Row="0" Margin="0,1,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Top"  MouseDown="DockPanel_MouseDown">
-            <TextBlock x:Name="txtWindowTitle" ToolTip="{Binding ElementName=txtWindowTitle, Path=Text}" FontFamily="Rockwell-Bold" FontWeight="Bold" Margin="10,5" FontSize="12" HorizontalAlignment="Stretch" VerticalAlignment="Center" DockPanel.Dock="Left"/>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top" DockPanel.Dock="Right" Margin="5">
-                <Border x:Name="bdrMinimize" ToolTip="Minimize" Background="Transparent" PreviewMouseLeftButtonDown="BdrMinimize_PreviewMouseLeftButtonDown" Margin="0,-5,8,0" Cursor="Hand" >
+        <!--<DockPanel Background="LightGray" Grid.Row="0" Margin="0,1,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Top"  MouseDown="DockPanel_MouseDown">
+            <TextBlock x:Name="txtWindowTitle" ToolTip="{Binding ElementName=txtWindowTitle, Path=Text}" FontFamily="Rockwell-Bold" FontWeight="Bold" Margin="10" FontSize="12" HorizontalAlignment="Stretch" VerticalAlignment="Center" DockPanel.Dock="Left"/>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top" DockPanel.Dock="Right" Margin="10">
+                <Border x:Name="bdrMinimize" ToolTip="Minimize" Background="Transparent" PreviewMouseLeftButtonDown="BdrMinimize_PreviewMouseLeftButtonDown" Margin="10" Cursor="Hand" >
                     <Image Source="../../Images/Minimize.png" Height="20" Width="20"/>
                 </Border>
-                <Border x:Name="bdrClose" ToolTip="Close" Background="Transparent" Cursor="Hand" PreviewMouseLeftButtonDown="BdrClose_PreviewMouseLeftButtonDown"  Margin="3" >
+                    <Border x:Name="bdrMaximize" ToolTip="Maximize" Background="Transparent" PreviewMouseLeftButtonDown="BdrMaximize_PreviewMouseLeftButtonDown"  Margin="10" Cursor="Hand" >
+                        <Image Source="../../Images/Maximize1.png" Height="16" Width="16"/>
+                    </Border>
+                    <Border x:Name="bdrClose" ToolTip="Close" Background="Transparent" PreviewMouseLeftButtonDown="BdrClose_PreviewMouseLeftButtonDown" Margin="10" Cursor="Hand">
                     <Image Source="../../Images/Close.png" Height="20"  Width="20"/>
                 </Border>
             </StackPanel>
-        </DockPanel>
+        </DockPanel>-->
 
         <!--Get Data from Reference Value-->
-        <StackPanel Margin="20" Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Stretch">
+        <StackPanel Margin="20" Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 
             <TextBlock Margin="10" Text="ENTER REF VALUE" FontFamily="Franklin Gothic Cond Demi" FontSize="20" HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
-            
-                <TextBox x:Name="txtReferenceValue" KeyUp="TxtReferenceValue_KeyUp" TextChanged="TxtReferenceValue_TextChanged" Padding="3,0,0,0" Margin="10" MinHeight="35" Height="35" MinWidth="250"
+
+            <TextBox x:Name="txtReferenceValue" KeyUp="TxtReferenceValue_KeyUp" TextChanged="TxtReferenceValue_TextChanged" Padding="3,0,0,0" Margin="10" MinHeight="35" Height="35" MinWidth="250"
                          MaxWidth="250" VerticalContentAlignment="Center" FontSize="15" HorizontalAlignment="Stretch" VerticalAlignment="Center">
                 <TextBox.Resources>
                     <Style TargetType="{x:Type Border}">
                         <Setter Property="CornerRadius" Value="5"/>
                     </Style>
                 </TextBox.Resources>
-            </TextBox>           
+            </TextBox>
             <Button x:Name="btnGetData" Click="BtnGetData_Click" Style="{StaticResource ButtonStyle}" Content="GET DATA" />
         </StackPanel>
-        
+
         <!--Show Data into the Grid-->
-            <DataGrid x:Name="grdSerialData" CanUserSortColumns="True" HorizontalGridLinesBrush="LightGray" VerticalGridLinesBrush="LightGray" Grid.Row="2" MinHeight="250" MaxHeight="250" ItemsSource="{Binding MyList}"
+        <DataGrid x:Name="grdSerialData" CanUserSortColumns="True" HorizontalGridLinesBrush="LightGray" VerticalGridLinesBrush="LightGray" Grid.Row="2" MaxHeight="850" MinHeight="250" ItemsSource="{Binding MyList}"
                   CellStyle="{DynamicResource GridCellStyle}" Margin="-5,5,0,10" ColumnHeaderStyle="{DynamicResource CenterGridHeaderStyle}" AutoGenerateColumns="False" 
                   HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <DataGrid.Columns>
@@ -147,10 +145,9 @@
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
-        
+
         <!--Export Data-->
-        <Button x:Name="btnExportData" Grid.Row="3" Click="BtnExportData_Click" Content="EXPORT" Style="{StaticResource ButtonStyle}"/>
-       
+        <Button x:Name="btnExportData" Grid.Row="3" Margin="0,2,0,15" Click="BtnExportData_Click" Content="EXPORT" Style="{StaticResource ButtonStyle}"/>
+
     </Grid>
-    </Border>
 </Window>

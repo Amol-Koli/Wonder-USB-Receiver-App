@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
+using System.IO.Ports;
+using System.Text;
 using System.Windows;
 using System.Windows.Input;
 
@@ -13,17 +15,21 @@ namespace Wonder_Appliances
     /// </summary>
     /// 
     public partial class MainWindow : System.Windows.Window
-    {
+    {  
         public MainWindow()
         {
-            InitializeComponent();
-            //Set your custome Title            
-            txtWindowTitle.Text = "COMPANY NAME";
-            txtReferenceValue.Focus();
+            InitializeComponent();            
+            txtReferenceValue.Focus();                        
+
+            port.DataReceived += new SerialDataReceivedEventHandler(port_DataReceived);
+            if (!this.port.IsOpen)
+            {
+                this.port.Open();
+            }
         }
 
-        #region variable declarations
-
+        #region variable declarations       
+        private SerialPort port = new SerialPort("COM1", 9600, Parity.None, 8, StopBits.One);
         private Microsoft.Office.Interop.Excel.Application excel;
         private Workbook workBook = null;
         private Worksheet workSheet = null;
@@ -40,8 +46,11 @@ namespace Wonder_Appliances
             {
                 if (!string.IsNullOrEmpty(txtReferenceValue.Text.Trim()))
                 {
+                    this.SetWindowSize();
+                    // Show all the incoming data in the port's buffer                                     
+                    //MessageBox.Show(this.port.ReadExisting());
                     MyList = new List<SerialData>();
-                    for (int i = 1; i < 10; i++)
+                    for (int i = 1; i < 100; i++)
                     {
                         MyList.Add(new SerialData()
                         {
@@ -63,6 +72,24 @@ namespace Wonder_Appliances
                 MessageBox.Show(ex.Message, "Message", MessageBoxButton.OK, MessageBoxImage.Question);
             }
         }
+
+        void port_DataReceived(object sender, SerialDataReceivedEventArgs e)
+        {
+           // Show all the incoming data in the port's buffer
+            MessageBox.Show(port.ReadExisting());
+        }
+
+        private void SetWindowSize()
+        {
+            if (App.Current.MainWindow.WindowState == WindowState.Normal)
+            {
+                this.grdSerialData.MaxHeight = 250;
+            }
+            else if (App.Current.MainWindow.WindowState == WindowState.Maximized)
+            {
+                this.grdSerialData.MaxHeight = 850;
+            }
+        }       
 
         private void BtnExportData_Click(object sender, RoutedEventArgs e)
         {
@@ -135,27 +162,12 @@ namespace Wonder_Appliances
                 MessageBox.Show(ex.Message, "Message", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-
-        private void DockPanel_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            App.Current.MainWindow.DragMove();
-        }
-
-        private void BdrMinimize_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            App.Current.MainWindow.WindowState = WindowState.Minimized;
-        }
-
-        private void BdrClose_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            App.Current.MainWindow.Close();
-        }
-
+       
         private void TxtReferenceValue_KeyUp(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
             {
-                BtnGetData_Click(sender, null);
+                BtnGetData_Click(sender, e);
             }
         }
 
@@ -166,6 +178,11 @@ namespace Wonder_Appliances
                 this.grdSerialData.ItemsSource = null;
                 this.MyList.Clear();
             }
+        }
+
+        private void Window_StateChanged(object sender, EventArgs e)
+        {
+            this.SetWindowSize();
         }
 
         #endregion
